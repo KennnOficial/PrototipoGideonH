@@ -1,0 +1,16 @@
+{
+  "name": "Gideon Hosting",
+  "short_name": "Gideon",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "assets/img/GideonHosting_Symbol-transparent.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gideon Hosting | Panel interno</title>
+    <meta
+      name="description"
+      content="Panel interno de Gideon Hosting para gestionar contenido, planes, FAQ, assets y videos."
+    />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#050505" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="assets/img/GideonHosting_Symbol-transparent.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body data-page="admin">
+    <header class="site-header">
+      <div class="container nav-shell">
+        <a class="brand" href="index.html" aria-label="Gideon Hosting">
+          <img class="brand-mark" src="assets/img/GH_Full_transp-alt.png" alt="Gideon Hosting" />
+        </a>
+
+        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="site-nav">
+          <div class="nav-group nav-main">
+            <a href="index.html" data-nav="inicio">Inicio</a>
+            <a href="store.html" data-nav="tienda">Planes</a>
+            <a href="afiliados.html" data-nav="afiliados">Afiliados</a>
+            <a href="tutoriales.html" data-nav="tutoriales">Tutoriales</a>
+            <a href="ayuda.html" data-nav="ayuda">Ayuda</a>
+          </div>
+          <div class="nav-group nav-actions">
+            <a href="https://gpanel.gideonhosting.cloud" class="nav-button" target="_blank" rel="noreferrer">GPanel</a>
+            <a href="https://status.gideonhosting.cloud" class="nav-button nav-status" target="_blank" rel="noreferrer">
+              Status
+              <span class="status-dot status-live"></span>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="store-hero">
+        <div class="container reveal">
+          <div class="surface-card page-hero-card">
+            <span class="eyebrow">Ruta interna</span>
+            <h1>Panel interno de Gideon</h1>
+            <p>
+              Gestiona videos, planes, FAQ, assets y contenido general desde una sola vista.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-space" data-admin-lock-screen>
+        <div class="container">
+          <article class="surface-card admin-lock-card reveal">
+            <span class="eyebrow">PIN interno</span>
+            <h2>Acceso restringido al panel</h2>
+            <p>
+              Introduce el PIN para administrar el contenido de ayuda y tutoriales.
+            </p>
+
+            <form class="admin-lock-form" data-admin-pin-form>
+              <div class="admin-lock-inputs">
+                <input
+                  type="password"
+                  name="pin"
+                  placeholder="PIN"
+                  inputmode="numeric"
+                  maxlength="4"
+                  autocomplete="off"
+                  readonly
+                />
+                <button class="btn btn-primary" type="submit">Entrar al panel</button>
+              </div>
+
+              <div class="admin-keypad" data-admin-keypad>
+                <button type="button" data-pin-digit="1">1</button>
+                <button type="button" data-pin-digit="2">2</button>
+                <button type="button" data-pin-digit="3">3</button>
+                <button type="button" data-pin-digit="4">4</button>
+                <button type="button" data-pin-digit="5">5</button>
+                <button type="button" data-pin-digit="6">6</button>
+                <button type="button" data-pin-digit="7">7</button>
+                <button type="button" data-pin-digit="8">8</button>
+                <button type="button" data-pin-digit="9">9</button>
+                <button type="button" class="admin-keypad-action" data-pin-clear>Limpiar</button>
+                <button type="button" data-pin-digit="0">0</button>
+                <button type="button" class="admin-keypad-action" data-pin-backspace>Borrar</button>
+              </div>
+
+              <div class="admin-status" data-admin-pin-status></div>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <div data-admin-protected hidden>
+        <section class="section-space">
+          <div class="container">
+            <article class="surface-card admin-note-card reveal">
+              <div class="admin-note-top">
+                <div>
+                  <span class="eyebrow">Sesión interna</span>
+                  <h2 data-admin-welcome-title>Bienvenido al panel</h2>
+                  <p data-admin-welcome-text>Acceso validado. El sistema está listo para gestionar contenido.</p>
+                </div>
+                <button class="btn btn-ghost" type="button" data-admin-logout>Cerrar acceso</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-space">
+          <div class="container admin-panel-layout">
+            <article class="surface-card admin-form-card reveal">
+            <div class="section-heading">
+              <span class="eyebrow">Editor</span>
+              <h2>Crear o editar showcase</h2>
+              <p>Llena los campos por idioma, define la portada y deja listo el link del video.</p>
+            </div>
+
+            <form data-admin-video-form>
+              <div class="admin-field-grid">
+                <div class="admin-field-group">
+                  <label for="admin-target">Sección destino</label>
+                  <select id="admin-target" name="target">
+                    <option value="ayuda">Ayuda</option>
+                    <option value="tutoriales">Tutoriales</option>
+                    <option value="all">Ambas</option>
+                  </select>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-video-url">Link del video</label>
+                  <input id="admin-video-url" name="videoUrl" type="url" placeholder="https://youtube.com/watch?v=..." />
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-image-url">Portada por URL</label>
+                  <input id="admin-image-url" name="imageUrl" type="url" placeholder="https://..." />
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-image-file">O subir portada</label>
+                  <input id="admin-image-file" name="imageFile" type="file" accept="image/*" />
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <div class="admin-upload-meta">
+                    <strong>Portada actual</strong>
+                    <span data-admin-image-current>Sin portada cargada.</span>
+                  </div>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-eyebrow-es">Eyebrow ES</label>
+                  <input id="admin-eyebrow-es" name="eyebrow_es" type="text" placeholder="Video guiado" />
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-eyebrow-en">Eyebrow EN</label>
+                  <input id="admin-eyebrow-en" name="eyebrow_en" type="text" placeholder="Guided video" />
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-eyebrow-pt">Eyebrow PT</label>
+                  <input id="admin-eyebrow-pt" name="eyebrow_pt" type="text" placeholder="Video guiado" />
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <label for="admin-title-es">Título ES</label>
+                  <input id="admin-title-es" name="title_es" type="text" placeholder="Cómo entrar al panel sin perderte" />
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <label for="admin-title-en">Título EN</label>
+                  <input id="admin-title-en" name="title_en" type="text" placeholder="How to enter the panel without getting lost" />
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <label for="admin-title-pt">Título PT</label>
+                  <input id="admin-title-pt" name="title_pt" type="text" placeholder="Como entrar no painel sem se perder" />
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <label for="admin-description-es">Descripción ES</label>
+                  <textarea id="admin-description-es" name="description_es" placeholder="Explica en pocas líneas qué verá el usuario y qué resuelve el video."></textarea>
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <label for="admin-description-en">Descripción EN</label>
+                  <textarea id="admin-description-en" name="description_en" placeholder="Explain in a few lines what the user will see and what the video solves."></textarea>
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <label for="admin-description-pt">Descripción PT</label>
+                  <textarea id="admin-description-pt" name="description_pt" placeholder="Explique em poucas linhas o que o usuario vai ver e o que o video resolve."></textarea>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-cta-es">Botón ES</label>
+                  <input id="admin-cta-es" name="cta_es" type="text" placeholder="Ver video" />
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-cta-en">Botón EN</label>
+                  <input id="admin-cta-en" name="cta_en" type="text" placeholder="Watch video" />
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="admin-cta-pt">Botón PT</label>
+                  <input id="admin-cta-pt" name="cta_pt" type="text" placeholder="Ver video" />
+                </div>
+
+                <div class="admin-field-group admin-field-group-full">
+                  <label class="admin-inline-check">
+                    <input name="featured" type="checkbox" />
+                    Marcar como destacado
+                  </label>
+                </div>
+              </div>
+
+              <div class="admin-form-actions">
+                <button class="btn btn-primary" type="submit">
+                  <span data-admin-submit-label>Guardar showcase</span>
+                </button>
+                <button class="btn btn-outline" type="button" data-admin-reset>Limpiar formulario</button>
+              </div>
+              <div class="admin-status" data-admin-status></div>
+            </form>
+          </article>
+
+            <div class="admin-video-list">
+              <article class="surface-card admin-list-card reveal delay-1">
+              <div class="section-heading">
+                <span class="eyebrow">Showcases guardados</span>
+                <h2>Biblioteca actual</h2>
+                <p>Edita, elimina o revisa rápidamente lo que ya tienes cargado en este navegador.</p>
+              </div>
+
+              <div class="admin-empty-state" data-admin-video-empty>
+                Aún no hay showcases guardados. Crea el primero desde el formulario.
+              </div>
+
+              <div class="admin-video-list" data-admin-video-list></div>
+            </article>
+
+              <article class="surface-card admin-list-card reveal delay-2">
+              <div class="section-heading">
+                <span class="eyebrow">Herramientas</span>
+                <h2>Exportar o importar</h2>
+                <p>Útil para pasar los showcases entre navegadores o dejar un respaldo rápido.</p>
+              </div>
+
+              <div class="admin-tools-row">
+                <button class="btn btn-outline" type="button" data-admin-export>Exportar JSON</button>
+                <label class="btn btn-ghost" for="admin-import-json">Importar JSON</label>
+                <input id="admin-import-json" data-admin-import type="file" accept="application/json" hidden />
+                <button class="btn btn-ghost" type="button" data-admin-clear-all>Borrar todo</button>
+              </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-space">
+          <div class="container">
+            <div class="guide-grid admin-cms-grid">
+              <article class="surface-card admin-list-card reveal">
+                <div class="section-heading">
+                  <span class="eyebrow">Dashboard</span>
+                  <h2>Resumen del panel</h2>
+                  <p>Vista rápida del contenido, publicación y actividad reciente.</p>
+                </div>
+                <div class="admin-overview-grid" data-admin-overview-grid></div>
+              </article>
+
+              <article class="surface-card admin-list-card reveal delay-1">
+                <div class="section-heading">
+                  <span class="eyebrow">Publicación</span>
+                  <h2>Draft, publicación y respaldo</h2>
+                  <p>Gestiona borrador, publicación, snapshots y restauración.</p>
+                </div>
+                <div class="admin-tools-row admin-tools-row-wide">
+                  <button class="btn btn-primary" type="button" data-cms-publish>Publicar cambios</button>
+                  <button class="btn btn-outline" type="button" data-cms-save-draft>Guardar borrador</button>
+                  <button class="btn btn-ghost" type="button" data-cms-snapshot>Crear backup</button>
+                  <button class="btn btn-outline" type="button" data-cms-export>Exportar CMS</button>
+                  <label class="btn btn-ghost" for="cms-import-json">Importar CMS</label>
+                  <input id="cms-import-json" data-cms-import type="file" accept="application/json" hidden />
+                  <button class="btn btn-ghost" type="button" data-admin-kill-sessions>Cerrar sesiones</button>
+                </div>
+                <div class="admin-status" data-cms-publish-status></div>
+                <div class="admin-backup-list" data-cms-backup-list></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-space">
+          <div class="container">
+            <div class="page-feature-grid admin-cms-grid">
+              <article class="surface-card admin-form-card reveal">
+                <div class="section-heading">
+                  <span class="eyebrow">Contenido</span>
+                  <h2>Textos y visibilidad</h2>
+                  <p>Edita títulos, textos clave y secciones visibles de cada página.</p>
+                </div>
+                <form data-cms-content-form>
+                  <div class="admin-field-grid">
+                    <div class="admin-field-group">
+                      <label for="cms-content-page">Página</label>
+                      <select id="cms-content-page" name="page">
+                        <option value="index">Inicio</option>
+                        <option value="store">Tienda</option>
+                        <option value="tutoriales">Tutoriales</option>
+                        <option value="ayuda">Ayuda</option>
+                        <option value="afiliados">Afiliados</option>
+                      </select>
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-content-title">Título principal</label>
+                      <input id="cms-content-title" name="title" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-content-text">Texto principal</label>
+                      <textarea id="cms-content-text" name="text"></textarea>
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-content-secondary-title">Título secundario</label>
+                      <input id="cms-content-secondary-title" name="secondaryTitle" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-content-secondary-text">Texto secundario</label>
+                      <textarea id="cms-content-secondary-text" name="secondaryText"></textarea>
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label>Visibilidad</label>
+                      <div class="admin-toggle-grid" data-cms-visibility-grid></div>
+                    </div>
+                  </div>
+                  <div class="admin-form-actions">
+                    <button class="btn btn-primary" type="submit">Guardar contenido</button>
+                  </div>
+                  <div class="admin-status" data-cms-content-status></div>
+                </form>
+              </article>
+
+              <article class="surface-card admin-form-card reveal delay-1">
+                <div class="section-heading">
+                  <span class="eyebrow">Media</span>
+                  <h2>Logos, héroes y assets</h2>
+                  <p>Cambia rutas de imágenes y revisa una vista previa antes de guardar.</p>
+                </div>
+                <form data-cms-media-form>
+                  <div class="admin-field-grid">
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-media-brand">Logo principal</label>
+                      <input id="cms-media-brand" name="brandLogo" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-media-symbol">Símbolo de marca</label>
+                      <input id="cms-media-symbol" name="symbolLogo" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-media-discord">Logo de Discord</label>
+                      <input id="cms-media-discord" name="discordLogo" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-media-og">OG / preview</label>
+                      <input id="cms-media-og" name="ogImage" type="text" />
+                    </div>
+                  </div>
+                  <div class="admin-media-preview-grid" data-cms-media-preview></div>
+                  <div class="admin-form-actions">
+                    <button class="btn btn-primary" type="submit">Guardar assets</button>
+                  </div>
+                  <div class="admin-status" data-cms-media-status></div>
+                </form>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-space">
+          <div class="container">
+            <div class="page-feature-grid admin-cms-grid">
+              <article class="surface-card admin-form-card reveal">
+                <div class="section-heading">
+                  <span class="eyebrow">Planes</span>
+                  <h2>Editor de planes</h2>
+                  <p>Precios, specs, badges, visibilidad, orden y ubicación desde un solo panel.</p>
+                </div>
+                <form data-cms-plan-form>
+                  <div class="admin-field-grid">
+                    <div class="admin-field-group">
+                      <label for="cms-plan-key">Plan</label>
+                      <select id="cms-plan-key" name="key"></select>
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-plan-badge">Badge</label>
+                      <input id="cms-plan-badge" name="badge" type="text" />
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-plan-price">Precio USD</label>
+                      <input id="cms-plan-price" name="price" type="number" min="0" step="0.5" />
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-plan-ram">RAM</label>
+                      <input id="cms-plan-ram" name="ramLabel" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-plan-cpu">CPU</label>
+                      <input id="cms-plan-cpu" name="cpu" type="text" />
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-plan-storage">NVMe GB</label>
+                      <input id="cms-plan-storage" name="storage" type="number" min="0" />
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-plan-backups">Backups</label>
+                      <input id="cms-plan-backups" name="backups" type="number" min="0" />
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-plan-ports">Puertos</label>
+                      <input id="cms-plan-ports" name="ports" type="number" min="0" />
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-plan-dbs">Bases de datos</label>
+                      <input id="cms-plan-dbs" name="databases" type="number" min="0" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-plan-locations">Ubicaciones</label>
+                      <input id="cms-plan-locations" name="locations" type="text" placeholder="Kansas City|Miami, Florida" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <div class="admin-toggle-grid admin-toggle-grid-compact">
+                        <label class="admin-inline-check"><input name="popular" type="checkbox" /> Popular</label>
+                        <label class="admin-inline-check"><input name="hidden" type="checkbox" /> Oculto</label>
+                        <label class="admin-inline-check"><input name="featuredHome" type="checkbox" /> Destacado en home</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="admin-form-actions">
+                    <button class="btn btn-primary" type="submit">Guardar plan</button>
+                  </div>
+                  <div class="admin-status" data-cms-plan-status></div>
+                </form>
+              </article>
+
+              <article class="surface-card admin-list-card reveal delay-1">
+                <div class="section-heading">
+                  <span class="eyebrow">Orden y catálogo</span>
+                  <h2>Lista de planes</h2>
+                  <p>Mueve, oculta o destaca planes sin tocar HTML.</p>
+                </div>
+                <div class="admin-entity-list" data-cms-plan-list></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-space">
+          <div class="container">
+            <div class="page-feature-grid admin-cms-grid">
+              <article class="surface-card admin-form-card reveal">
+                <div class="section-heading">
+                  <span class="eyebrow">FAQ</span>
+                  <h2>Editor de preguntas frecuentes</h2>
+                  <p>Gestiona preguntas, respuestas, estado y orden para inicio o ayuda.</p>
+                </div>
+                <form data-cms-faq-form>
+                  <div class="admin-field-grid">
+                    <div class="admin-field-group">
+                      <label for="cms-faq-page">Página</label>
+                      <select id="cms-faq-page" name="page">
+                        <option value="index">Inicio</option>
+                        <option value="ayuda">Ayuda</option>
+                      </select>
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-faq-badge">Badge</label>
+                      <input id="cms-faq-badge" name="badge" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-faq-question">Pregunta</label>
+                      <input id="cms-faq-question" name="question" type="text" />
+                    </div>
+                    <div class="admin-field-group admin-field-group-full">
+                      <label for="cms-faq-answer">Respuesta</label>
+                      <textarea id="cms-faq-answer" name="answer"></textarea>
+                    </div>
+                    <div class="admin-field-group">
+                      <label for="cms-faq-status">Estado</label>
+                      <select id="cms-faq-status" name="status">
+                        <option value="normal">Normal</option>
+                        <option value="new">Nuevo</option>
+                        <option value="updated">Actualizado</option>
+                      </select>
+                    </div>
+                    <div class="admin-field-group">
+                      <label class="admin-inline-check"><input name="pinned" type="checkbox" /> Fijado arriba</label>
+                    </div>
+                  </div>
+                  <div class="admin-form-actions">
+                    <button class="btn btn-primary" type="submit">Guardar FAQ</button>
+                  </div>
+                  <div class="admin-status" data-cms-faq-status></div>
+                </form>
+              </article>
+
+              <article class="surface-card admin-list-card reveal delay-1">
+                <div class="section-heading">
+                  <span class="eyebrow">Biblioteca FAQ</span>
+                  <h2>Preguntas cargadas</h2>
+                  <p>Edita, reordena o elimina entradas desde aquí.</p>
+                </div>
+                <div class="admin-entity-list" data-cms-faq-list></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-space">
+          <div class="container">
+            <article class="surface-card admin-list-card reveal">
+              <div class="section-heading">
+                <span class="eyebrow">Actividad</span>
+                <h2>Historial interno</h2>
+                <p>Accesos, publicaciones, respaldos y cambios recientes.</p>
+              </div>
+              <div class="admin-activity-list" data-admin-activity-list></div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-card">
+          <div class="footer-top">
+            <a class="footer-brand" href="index.html" aria-label="Gideon Hosting">
+              <img class="footer-brand-mark" src="assets/img/GH_Full_transp-alt.png" alt="Gideon Hosting" />
+            </a>
+          </div>
+          <div class="footer-links" aria-label="Enlaces legales">
+            <a href="terminos.html">Términos</a>
+            <a href="privacidad.html">Privacidad</a>
+            <a href="reembolsos.html">Reembolsos</a>
+            <a href="admin.html" class="footer-admin-link">Acceso total (PIN)</a>
+          </div>
+          <div class="footer-bottom">
+            <span>&copy; 2026 Gideon Hosting</span>
+            <span>Powered by Gideon Studio</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
