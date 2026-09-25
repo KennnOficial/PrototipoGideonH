@@ -1,0 +1,313 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum PlanTier {
+  BUDGET
+  PERFORMANCE
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROVISIONING
+  ACTIVE
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYPAL
+  MERCADO_PAGO
+  BANK_TRANSFER
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  UNPAID
+  CANCELED
+  PAUSED
+}
+
+enum ServerStatus {
+  PENDING
+  PROVISIONING
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+  FAILED
+}
+
+enum ProvisioningStatus {
+  PENDING
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+enum EmailStatus {
+  QUEUED
+  SENT
+  FAILED
+}
+
+model User {
+  id                String               @id @default(cuid())
+  email             String               @unique
+  username          String?              @unique
+  passwordHash      String?
+  role              UserRole             @default(CUSTOMER)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  customerProfile   CustomerProfile?
+  pterodactylAccount PterodactylAccount?
+  orders            Order[]
+  subscriptions     Subscription[]
+  servers           Server[]
+  emailLogs         EmailLog[]
+  auditLogs         AuditLog[]
+}
+
+model CustomerProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  fullName     String?
+  discordTag   String?
+  companyName  String?
+  billingEmail String?
+  country      String?
+  currency     String   @default("USD")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  description String?
+  status      ProductStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  plans       Plan[]
+}
+
+model Plan {
+  id                    String      @id @default(cuid())
+  productId             String
+  name                  String
+  slug                  String      @unique
+  tier                  PlanTier
+  isPopular             Boolean     @default(false)
+  isVisible             Boolean     @default(true)
+  priceMonthly          Decimal     @db.Decimal(10, 2)
+  ramMb                 Int
+  ramLabel              String
+  cpu                   String
+  storageGb             Int
+  backups               Int
+  extraBackupSlots      Int         @default(0)
+  extraBackupPrice      Decimal?    @db.Decimal(10, 2)
+  ports                 Int
+  databases             Int
+  dedicatedIpPrice      Decimal?    @db.Decimal(10, 2)
+  locations             String[]
+  antiDdosIncluded      Boolean     @default(true)
+  pterodactylNestId     Int?
+  pterodactylEggId      Int?
+  pterodactylNodeHint   String?
+  pterodactylAllocationHint String?
+  sortOrder             Int         @default(0)
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  product               Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems            OrderItem[]
+  subscriptions         Subscription[]
+  servers               Server[]
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique
+  userId         String
+  status         OrderStatus @default(PENDING)
+  currency       String      @default("USD")
+  subtotal       Decimal     @db.Decimal(10, 2)
+  discountTotal  Decimal     @default(0) @db.Decimal(10, 2)
+  taxTotal       Decimal     @default(0) @db.Decimal(10, 2)
+  total          Decimal     @db.Decimal(10, 2)
+  notes          String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  user           User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  items          OrderItem[]
+  payments       Payment[]
+  provisioningJobs ProvisioningJob[]
+}
+
+model OrderItem {
+  id                 String   @id @default(cuid())
+  orderId            String
+  planId             String
+  quantity           Int      @default(1)
+  unitPrice          Decimal  @db.Decimal(10, 2)
+  totalPrice         Decimal  @db.Decimal(10, 2)
+  planNameSnapshot   String
+  planSlugSnapshot   String
+  ramLabelSnapshot   String
+  cpuSnapshot        String
+  storageGbSnapshot  Int
+  backupsSnapshot    Int
+  portsSnapshot      Int
+  databasesSnapshot  Int
+  locationsSnapshot  String[]
+  createdAt          DateTime @default(now())
+  order              Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  plan               Plan     @relation(fields: [planId], references: [id], onDelete: Restrict)
+}
+
+model Payment {
+  id                  String          @id @default(cuid())
+  orderId             String
+  provider            PaymentProvider
+  status              PaymentStatus   @default(PENDING)
+  amount              Decimal         @db.Decimal(10, 2)
+  currency            String          @default("USD")
+  providerPaymentId   String?         @unique
+  providerSessionId   String?         @unique
+  receiptUrl          String?
+  invoiceUrl          String?
+  rawPayload          Json?
+  paidAt              DateTime?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  order               Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id                    String              @id @default(cuid())
+  userId                String
+  planId                String
+  status                SubscriptionStatus  @default(ACTIVE)
+  billingDay            Int?
+  currentPeriodStart    DateTime?
+  currentPeriodEnd      DateTime?
+  nextRenewalAt         DateTime?
+  cancelledAt           DateTime?
+  provider              PaymentProvider?
+  providerSubscriptionId String?           @unique
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  user                  User                @relation(fields: [userId], references: [id], onDelete: Restrict)
+  plan                  Plan                @relation(fields: [planId], references: [id], onDelete: Restrict)
+  servers               Server[]
+}
+
+model PterodactylAccount {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  externalId          String   @unique
+  pterodactylUserId   Int?     @unique
+  panelUsername       String?
+  panelEmail          String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  servers             Server[]
+}
+
+model Server {
+  id                    String       @id @default(cuid())
+  userId                String
+  planId                String
+  subscriptionId        String?
+  pterodactylAccountId  String?
+  status                ServerStatus @default(PENDING)
+  name                  String
+  panelUrl              String?
+  nodeLabel             String?
+  locationLabel         String?
+  pterodactylServerId   Int?         @unique
+  pterodactylIdentifier String?      @unique
+  pterodactylUuid       String?      @unique
+  provisionedAt         DateTime?
+  suspendedAt           DateTime?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  user                  User         @relation(fields: [userId], references: [id], onDelete: Restrict)
+  plan                  Plan         @relation(fields: [planId], references: [id], onDelete: Restrict)
+  subscription          Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  pterodactylAccount    PterodactylAccount? @relation(fields: [pterodactylAccountId], references: [id], onDelete: SetNull)
+  provisioningJobs      ProvisioningJob[]
+}
+
+model ProvisioningJob {
+  id             String              @id @default(cuid())
+  orderId        String?
+  serverId       String?
+  status         ProvisioningStatus  @default(PENDING)
+  jobType        String
+  attempts       Int                 @default(0)
+  lastError      String?
+  payload        Json?
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  order          Order?              @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  server         Server?             @relation(fields: [serverId], references: [id], onDelete: SetNull)
+}
+
+model EmailLog {
+  id          String      @id @default(cuid())
+  userId       String?
+  type        String
+  status      EmailStatus @default(QUEUED)
+  toEmail     String
+  subject     String
+  providerId  String?
+  error       String?
+  sentAt      DateTime?
+  createdAt   DateTime    @default(now())
+  user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  meta       Json?
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
